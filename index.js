@@ -1,5 +1,5 @@
 import express from 'express';
-import { read } from './jsonFileStorage.js';
+import read from './jsonFileStorage.js';
 
 const app = express();
 
@@ -7,9 +7,9 @@ const getSightings = (request, response) => {
   console.log('request for sightings came in');
   read('data.json', (err, data) => {
     let sightingDetails = '';
-    for (const [key, value] of Object.entries(data.sightings[request.params.index])) {
+    Object.entries(data.sightings[request.params.index]).forEach(([key, value]) => {
       sightingDetails += `${key}: ${value}<br>`;
-    }
+    });
     const content = `
       <html>
         <body>
