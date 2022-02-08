@@ -3,6 +3,15 @@ import read from './jsonFileStorage.js';
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
+app.get('/', (request, response) => {
+  read('data.json', (err, data) => {
+    const content = data.sightings;
+    response.render('getsightings', { content });
+  });
+});
+
 const getSightings = (request, response) => {
   console.log('request for sightings came in');
   read('data.json', (err, data) => {
@@ -15,6 +24,7 @@ const getSightings = (request, response) => {
         <body>
           <h1>BIGFOOT SIGHTING DETAILS</h1>
           <h3>${sightingDetails}</h3>
+          <h2><a href="/">index page</a></h2>
         </body>
       </html>
     `;

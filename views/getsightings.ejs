@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <h1>BIGFOOT SIGHTING DETAILS</h1>
+    <% for(let i = 0; i < content.length; i += 1) { %>
+    <p>
+      <a href="/sightings/<%= i %>">Sighting <%= i %></a>
+    </p>
+    <% } %>
+  </body>
+</html>
