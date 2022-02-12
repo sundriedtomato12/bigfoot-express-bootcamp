@@ -1,14 +1,34 @@
 import express from 'express';
-import read from './jsonFileStorage.js';
+import { read, add } from './jsonFileStorage.js';
 
 const app = express();
 
 app.set('view engine', 'ejs');
 
+app.use(express.urlencoded({ extended: false }));
+
 app.get('/', (request, response) => {
   read('data.json', (err, data) => {
     const content = data.sightings;
     response.render('getsightings', { content });
+  });
+});
+
+app.get('/new', (request, response) => {
+  response.render('newsightings');
+});
+
+app.post('/new', (request, response) => {
+  add('data.json', 'sightings', request.body, (err) => {
+    if (err) {
+      response.status(500).send('DB write error.');
+    }
+  });
+  let index = '';
+  read('data.json', (err, data) => {
+    index = data.sightings.length - 1;
+    // redirect to sightings site
+    response.redirect(`/sightings/${index}`);
   });
 });
 
